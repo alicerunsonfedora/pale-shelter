@@ -1,0 +1,16 @@
+# macOS-specific files
+.DS_Store
+
+# Python files
+**/__pycache__/
+**.pym
+**.pyc
+**/.pytest_cache/
+
+# Text editor/IDE files
+.idea/
+.vscode/
+
+# Distribution files
+build/
+dist/

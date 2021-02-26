@@ -1,0 +1,18 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[scripts]
+game = "python Lifelight.py"
+build = "pyinstaller --windowed Lifelight.spec"
+
+[packages]
+pygame = "*"
+
+[dev-packages]
+autopep8 = "*"
+pyinstaller = "*"
+
+[requires]
+python_version = "3.9"
