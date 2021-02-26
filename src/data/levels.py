@@ -31,6 +31,7 @@ class Level():
         self.dimensions: Tuple[int, int] = (0, 0)
         self.tile_definitions: Dict[str, Tuple[int, int]] = {" ": (-1, -1)}
         self.tiles: List[List[Tuple[int, int]]] = []
+        self.entities: List[Tuple[str, Tuple[int, int]]] = []
 
         with open(filepath, "r") as file:
             self._parse_file([lin.strip("\n") for lin in file.readlines(
@@ -71,3 +72,11 @@ class Level():
 
         while (data := source.pop(0)) != "END LAYOUT":
             self.tiles.append([self.tile_definitions[tile] for tile in data])
+
+        if source.pop(0) != "BEGIN ENTITIES":
+            raise TypeError("Entity block is missing or corrupt.")
+
+        while (data := source.pop(0)) != "END ENTITIES":
+            entity_data = data.split("  ")
+            self.entities.append((entity_data[0], tuple(
+                [int(val) for val in entity_data[1:]])))

@@ -31,15 +31,37 @@ class PaleShelter():
         self.palette.assign_color_name("PINK", "ff9e95")
 
         self.ts_structures = Tilesheet(
-            asset_path("assets/tilesets/struct01.png"), (48, 48), (12, 16))
+            asset_path("assets/tilesets/struct01.png"), (48, 48), (9, 9))
 
-        self.player = Player((16, 16), 4)
         self.level = Level(asset_path("data/random01.lvl"))
+        self.player = Player(self.init_entity_position("PLAYER"), 4)
 
         self.entities: List[NonPlayerEntity] = []
         self.game_over = False
 
-        self.entities.append(NonPlayerEntity((200, 200)))
+        for name, _ in self.level.entities:
+            if name == "PLAYER":
+                continue
+            self.entities.append(NonPlayerEntity(
+                self.init_entity_position(name)))
+
+    def init_entity_position(self, entity) -> Tuple[int, int]:
+        position = 0, 0
+        for ent_name, ent_position in self.level.entities:
+            if ent_name != entity:
+                continue
+            position = ent_position
+            break
+
+        l_width, l_height = self.level.dimensions
+        t_width, t_height = self.ts_structures.tile_size
+        c_width, c_height = pygame.display.get_window_size()
+        center_x, center_y = c_width / 2, c_height / 2
+        offset_x = center_x - (t_width * (l_width / 2))
+        offset_y = center_y - (t_height * (l_height / 2))
+        x, y = position
+        position = (x * t_width) + offset_x, (y * t_height) + offset_y
+        return position
 
     def manage_game_events(self) -> bool:
         """Manage the primary game events such as quitting, player movement, etc."""
@@ -110,8 +132,10 @@ class PaleShelter():
 
         self.canvas.blit(self.ts_structures.get_tile(
             1, 0), self.player.position)
-        self.canvas.blit(self.ts_structures.get_tile(
-            1, 0), self.entities[0].position)
+
+        for entity in self.entities:
+            self.canvas.blit(self.ts_structures.get_tile(
+                1, 0), entity.position)
 
     def render(self) -> None:
         """Render the changes onto the screen."""
