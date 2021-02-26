@@ -6,6 +6,7 @@
 
 """The player module contains code surrounding the player in the game."""
 import pygame
+from random import random
 from typing import Tuple, Dict
 
 
@@ -21,6 +22,7 @@ class Player():
         """
         self.position = origin
         self.move_rate = speed
+        self.love_meter = 100.0
 
     def calculate_position(self, pressed: Dict[int, bool]) -> Tuple[int, int]:
         """Returns the new position based on what keys are pressed."""
@@ -38,3 +40,23 @@ class Player():
     def update_position(self, pressed: Dict[int, bool]):
         """Update the position of the player based on what keys are being pressed."""
         self.position = self.calculate_position(pressed)
+
+    def update_love(self) -> None:
+        """Randomly drain the love on every tick."""
+        if self.love_meter <= 0.0:
+            self.love_meter = 0.0
+        else:
+            self.love_meter -= random() * 0.00001
+
+    def add_love(self, amount: float) -> None:
+        """Add love by a given amount."""
+        self.love_meter += amount
+        if self.love_meter >= 100.0:
+            self.love_meter = 100.0
+
+    def subtract_love(self, amount: float) -> None:
+        """Subtract love by a given amount."""
+        if self.love_meter <= 0.0:
+            self.love_meter = 0.0
+        else:
+            self.love_meter -= amount

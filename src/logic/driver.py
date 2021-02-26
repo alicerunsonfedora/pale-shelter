@@ -24,7 +24,8 @@ class PaleShelter():
         self.frame_limiter = pygame.time.Clock()
         self.fps = fps
 
-        self.palette = ColorPalette(asset_path("assets/palettes/nostalgia36.gpl"))
+        self.palette = ColorPalette(asset_path(
+            "assets/palettes/nostalgia36.gpl"))
         self.palette.assign_color_name("DARK_BLACK", "1e2029")
 
         self.ts_structures = Tilesheet(
@@ -36,6 +37,10 @@ class PaleShelter():
     def manage_game_events(self) -> bool:
         """Manage the primary game events such as quitting, player movement, etc."""
         self.frame_limiter.tick(self.fps)
+
+        self.player.update_love()
+        if self.player.love_meter <= 0:
+            print("Player is out of love!")
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
