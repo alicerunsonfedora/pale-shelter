@@ -5,7 +5,7 @@
 #
 
 from os import path
-from typing import List, Tuple
+from typing import Dict, List, Tuple
 from src.logic.player import Player
 from src.logic.entity import NonPlayerEntity
 from src.data.levels import Level
@@ -28,15 +28,18 @@ class PaleShelter():
         self.palette = ColorPalette(asset_path(
             "assets/palettes/nostalgia36.gpl"))
         self.palette.assign_color_name("DARK_BLACK", "1e2029")
+        self.palette.assign_color_name("PINK", "ff9e95")
 
         self.ts_structures = Tilesheet(
             asset_path("assets/tilesets/struct01.png"), (48, 48), (12, 16))
 
-        self.player = Player((200, 200), 4)
+        self.player = Player((16, 16), 4)
         self.level = Level(asset_path("data/random01.lvl"))
 
         self.entities: List[NonPlayerEntity] = []
         self.game_over = False
+
+        self.entities.append(NonPlayerEntity((200, 200)))
 
     def manage_game_events(self) -> bool:
         """Manage the primary game events such as quitting, player movement, etc."""
@@ -50,24 +53,30 @@ class PaleShelter():
             if event.type == pygame.QUIT:
                 return False
 
-        pressed = pygame.key.get_pressed()
-        transfer = self.player.read_from_pressed(pressed)
+        pressed: Dict[int, bool] = pygame.key.get_pressed()
+        self.player.read_from_pressed(pressed)
 
-        if transfer:
-            for entity in self.entities:
-                if not entity.is_near(self.player):
-                    continue
-                entity.transfer(transfer)
-                if entity.verify():
-                    self.game_over = True
+        for entity in self.entities:
+            if not entity.is_near(self.player):
+                continue
+            if not pressed[pygame.K_e]:
+                continue
+            if entity.fulfilled:
+                continue
 
-        return True
+            self.player.subtract_love(0.5)
+            entity.transfer(0.5)
+
+            if entity.verify():
+                self.game_over = True
+
+        return not self.game_over
 
     def update_canvas(self) -> None:
         """Update the contents of the canvas."""
 
         # Fill the canvas with a black-like color.
-        self.canvas.fill(self.palette.get_color("DARK_BLACK"))
+        self.canvas.fill(self.palette.get_color("PINK"))
 
         # Get the width and the height of the level, tiles, and the window.
         l_width, l_height = self.level.dimensions
@@ -98,6 +107,11 @@ class PaleShelter():
             # Move to the next row and reset the X position.
             tile_y += t_height
             tile_x = offset_x
+
+        self.canvas.blit(self.ts_structures.get_tile(
+            1, 0), self.player.position)
+        self.canvas.blit(self.ts_structures.get_tile(
+            1, 0), self.entities[0].position)
 
     def render(self) -> None:
         """Render the changes onto the screen."""
