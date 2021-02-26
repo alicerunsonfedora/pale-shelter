@@ -5,8 +5,9 @@
 #
 
 from os import path
-from typing import Tuple
+from typing import List, Tuple
 from src.logic.player import Player
+from src.logic.entity import NonPlayerEntity
 from src.data.levels import Level
 import pygame
 from src.assets import Tilesheet, ColorPalette, asset_path
@@ -34,6 +35,9 @@ class PaleShelter():
         self.player = Player((200, 200), 4)
         self.level = Level(asset_path("data/random01.lvl"))
 
+        self.entities: List[NonPlayerEntity] = []
+        self.game_over = False
+
     def manage_game_events(self) -> bool:
         """Manage the primary game events such as quitting, player movement, etc."""
         self.frame_limiter.tick(self.fps)
@@ -47,7 +51,15 @@ class PaleShelter():
                 return False
 
         pressed = pygame.key.get_pressed()
-        self.player.read_from_pressed(pressed)
+        transfer = self.player.read_from_pressed(pressed)
+
+        if transfer:
+            for entity in self.entities:
+                if not entity.is_near(self.player):
+                    continue
+                entity.transfer(transfer)
+                if entity.verify():
+                    self.game_over = True
 
         return True
 

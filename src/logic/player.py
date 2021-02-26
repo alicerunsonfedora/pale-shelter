@@ -37,13 +37,16 @@ class Player():
             y += self.move_rate
         return x, y
 
-    def read_from_pressed(self, pressed: Dict[int, bool]):
+    def read_from_pressed(self, pressed: Dict[int, bool]) -> float:
         """Update the position of the player based on what keys are being pressed, and change the love accordingly."""
         self.position = self.calculate_position(pressed)
+        transfer = 0.0
 
-        # TODO: Determine means of transferring this to other entities.
         if pressed[pygame.K_e]:
+            transfer = 0.5
             self.subtract_love(0.5)
+
+        return transfer
 
     def update_love(self) -> None:
         """Randomly drain the love on every tick."""
