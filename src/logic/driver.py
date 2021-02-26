@@ -47,7 +47,7 @@ class PaleShelter():
                 return False
 
         pressed = pygame.key.get_pressed()
-        self.player.update_position(pressed)
+        self.player.read_from_pressed(pressed)
 
         return True
 
