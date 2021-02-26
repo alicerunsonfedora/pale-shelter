@@ -19,16 +19,16 @@ class PaleShelter():
         """Set up the game's canvas, colors, tilesheets, and event listeners."""
 
         self.canvas = pygame.display.set_mode(window_size, pygame.RESIZABLE)
-        pygame.display.set_caption("Lifelight")
+        pygame.display.set_caption("No Love")
 
         self.frame_limiter = pygame.time.Clock()
         self.fps = fps
 
-        self.palette = ColorPalette(asset_path("assets/adventure28.gpl"))
-        self.palette.assign_color_name("DARK_BLACK", "091d21")
+        self.palette = ColorPalette(asset_path("assets/palettes/nostalgia36.gpl"))
+        self.palette.assign_color_name("DARK_BLACK", "1e2029")
 
         self.ts_structures = Tilesheet(
-            asset_path("assets/tilesheets/struct01.png"), (48, 48), (12, 16))
+            asset_path("assets/tilesets/struct01.png"), (48, 48), (12, 16))
 
         self.player = Player((200, 200), 4)
         self.level = Level(asset_path("data/random01.lvl"))
