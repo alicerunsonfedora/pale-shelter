@@ -1,0 +1,30 @@
+# List basic metadata about this map, including the tileset to use and the size of the map.
+# The first uncommented line must contain the words "LIFELIGHT LEVEL", followed by a newline
+# character.
+#
+# If you are using a shared tileset definition for the level, put a '#' in front of the tileset
+# name.
+LIFELIGHT LEVEL
+TILESET #STRUCT01
+SIZE  6  8
+
+# Each character in the definitions section below is used to create the layout section. If the
+# tileset is shared, this section is unnecessary as the definition file for that tileset will
+# provide the definitions for the level at runtime.
+# BEGIN DEFINITIONS
+# X  0  0
+# END DEFINITIONS
+
+# Using the characters from the definitions, create a layout that represents your map.
+# This will be used to determine the layout of the map. Entities will be added in a later
+# state of the level file.
+BEGIN LAYOUT
+WAAAAX
+QBBBBE
+QMNNNE
+QZFFFE
+CSJFKV
+  QFE
+  QFE
+  CSV
+END LAYOUT
