@@ -35,7 +35,7 @@ class PaleShelter():
             "assets/tilesets/decor01.png"), (48, 48), (22, 24))
 
         self.level = Level(asset_path("data/random01.lvl"))
-        self.player = Player(self.init_entity_position("PLAYER"), 4)
+        self.player = Player(self._init_entity_position("PLAYER"), 4)
 
         self.collidables = []
         self.made_first_paint = False
@@ -47,9 +47,9 @@ class PaleShelter():
             if name == "PLAYER":
                 continue
             self.entities.append(NonPlayerEntity(
-                self.init_entity_position(name)))
+                self._init_entity_position(name)))
 
-    def init_entity_position(self, entity) -> Tuple[int, int]:
+    def _init_entity_position(self, entity) -> Tuple[int, int]:
         position = 0, 0
         for ent_name, ent_position in self.level.entities:
             if ent_name != entity:
@@ -165,3 +165,15 @@ class PaleShelter():
         if not self.made_first_paint:
             self.made_first_paint = True
         pygame.display.update()
+
+    def lifecycle(self):
+        """Run a standard game lifecycle of handling game events, updating the canvas, and rendering the contents to the
+            screen.
+
+        Returns:
+            A boolean whether the game should keep running.
+        """
+        should_keep_running = self.manage_game_events()
+        self.update_canvas()
+        self.render()
+        return should_keep_running

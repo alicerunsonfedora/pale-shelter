@@ -18,9 +18,7 @@ def main():
 
     # Manage the game events, update the canvas, and render.
     while in_game:
-        in_game = game.manage_game_events()
-        game.update_canvas()
-        game.render()
+        in_game = game.lifecycle()
 
     pygame.quit()
 
