@@ -11,21 +11,17 @@ import pygame
 from src.logic.player import Player
 from src.logic.entity import NonPlayerEntity
 from src.logic.powerup import Powerup
+from src.logic.scene import GameScene
 from src.data.levels import Level
 from src.assets import Tilesheet, ColorPalette, asset_path
 
 
-class PaleShelter():
+class GameDriver(GameScene):
     """The main application class for the game."""
 
-    def __init__(self, window_size: Tuple[int, int] = (1280, 720), fps: int = 60) -> None:
+    def __init__(self, window, clock, fps: int = 60) -> None:
         """Set up the game's canvas, colors, tilesheets, and event listeners."""
-
-        self.canvas = pygame.display.set_mode(window_size)
-        pygame.display.set_caption("No Love")
-
-        self.frame_limiter = pygame.time.Clock()
-        self.fps = fps
+        super().__init__(window, clock, fps)
 
         self.palette = ColorPalette(asset_path(
             "assets/palettes/nostalgia36.gpl"))
@@ -107,7 +103,7 @@ class PaleShelter():
 
     def manage_game_events(self) -> bool:
         """Manage the primary game events such as quitting, player movement, etc."""
-        delta = self.frame_limiter.tick(self.fps) / 1000
+        super().manage_game_events()
 
         self.player.update_love()
         if self.player.love_meter <= 0:
@@ -118,7 +114,7 @@ class PaleShelter():
                 return False
 
         pressed: Dict[int, bool] = pygame.key.get_pressed()
-        self.player.update_position(pressed, delta, self.collidables)
+        self.player.update_position(pressed, self.delta, self.collidables)
 
         for entity in self.entities:
             if not entity.is_near(self.player):
@@ -147,6 +143,7 @@ class PaleShelter():
         """Update the contents of the canvas."""
 
         # Fill the canvas with a black-like color.
+        super().update_canvas()
         self.canvas.fill(self.palette.get_color("DARK_BLACK"))
 
         # Get the width and the height of the level, tiles, and the window.
@@ -242,16 +239,4 @@ class PaleShelter():
         """Render the changes onto the screen."""
         if not self.made_first_paint:
             self.made_first_paint = True
-        pygame.display.update()
-
-    def lifecycle(self):
-        """Run a standard game lifecycle of handling game events, updating the canvas, and rendering the contents to the
-            screen.
-
-        Returns:
-            A boolean whether the game should keep running.
-        """
-        should_keep_running = self.manage_game_events()
-        self.update_canvas()
-        self.render()
-        return should_keep_running
+        super().render()
