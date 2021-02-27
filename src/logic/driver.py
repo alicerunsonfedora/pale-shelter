@@ -19,7 +19,7 @@ from src.assets import Tilesheet, ColorPalette, asset_path
 class GameDriver(GameScene):
     """The main application class for the game."""
 
-    def __init__(self, window, clock, fps: int = 60) -> None:
+    def __init__(self, window, clock, map_name, fps: int = 60) -> None:
         """Set up the game's canvas, colors, tilesheets, and event listeners."""
         super().__init__(window, clock, fps)
 
@@ -39,7 +39,7 @@ class GameDriver(GameScene):
             "ui": Tilesheet(asset_path("assets/ui/ui_master.png"), (48, 48), (12, 12))
         }
 
-        self.level = Level(asset_path("data/random01.lvl"))
+        self.level = Level(asset_path(f"data/{map_name}.lvl"))
         self.player = Player(self._init_entity_position("PLAYER"), 4)
 
         exit_x, exit_y = self.get_canvas_position(self.level.exit)
@@ -108,10 +108,6 @@ class GameDriver(GameScene):
         self.player.update_love()
         if self.player.love_meter <= 0:
             print("Player is out of love!")
-
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                return False
 
         pressed: Dict[int, bool] = pygame.key.get_pressed()
         self.player.update_position(pressed, self.delta, self.collidables)

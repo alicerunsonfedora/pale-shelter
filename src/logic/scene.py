@@ -4,6 +4,7 @@
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 #
 import pygame
+import sys
 
 
 class GameScene():
@@ -15,6 +16,9 @@ class GameScene():
 
     def manage_game_events(self) -> bool:
         self.delta = self.frame_limiter.tick(self.fps) / 1000
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit(0)
         return True
 
     def update_canvas(self):
