@@ -3,6 +3,8 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 #
+from src.assets.pyinst import asset_path
+from src.assets.color import ColorPalette
 import pygame
 import sys
 
@@ -13,6 +15,10 @@ class GameScene():
         self.frame_limiter = clock
         self.fps = fps
         self.delta = 0
+
+        self.palette = ColorPalette(asset_path(
+            "assets/palettes/nostalgia36.gpl"))
+        self.palette.assign_color_name("DARK_BLACK", "1e2029")
 
     def manage_game_events(self) -> bool:
         self.delta = self.frame_limiter.tick(self.fps) / 1000

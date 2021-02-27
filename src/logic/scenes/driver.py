@@ -22,10 +22,6 @@ class GameDriver(GameScene):
     def __init__(self, window, clock, map_name, fps: int = 60) -> None:
         """Set up the game's canvas, colors, tilesheets, and event listeners."""
         super().__init__(window, clock, fps)
-
-        self.palette = ColorPalette(asset_path(
-            "assets/palettes/nostalgia36.gpl"))
-        self.palette.assign_color_name("DARK_BLACK", "1e2029")
         self.palette.assign_color_name("METER_UPPER", "a3c255")
         self.palette.assign_color_name("METER_LOWER", "6fa341")
 
