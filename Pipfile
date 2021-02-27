@@ -13,6 +13,7 @@ pygame = "*"
 [dev-packages]
 autopep8 = "*"
 pyinstaller = "*"
+rope = "*"
 
 [requires]
 python_version = "3.9"

@@ -30,7 +30,8 @@ class PaleShelter():
         self.palette = ColorPalette(asset_path(
             "assets/palettes/nostalgia36.gpl"))
         self.palette.assign_color_name("DARK_BLACK", "1e2029")
-        self.palette.assign_color_name("PINK", "ff9e95")
+        self.palette.assign_color_name("METER_UPPER", "a3c255")
+        self.palette.assign_color_name("METER_LOWER", "6fa341")
 
         self.tilesets = {
             "structure": Tilesheet(
@@ -59,6 +60,9 @@ class PaleShelter():
         self.powerups: List[Powerup] = []
         for powerup in self.level.powerups:
             self.powerups.append(self._init_powerup(powerup))
+
+        self.love_meter_bg = pygame.image.load(
+            asset_path("assets/hud/lovemeter.png"))
 
     def get_canvas_position(self, position) -> Tuple[int, int]:
         l_width, l_height = self.level.dimensions
@@ -135,7 +139,7 @@ class PaleShelter():
         """Update the contents of the canvas."""
 
         # Fill the canvas with a black-like color.
-        self.canvas.fill(self.palette.get_color("PINK"))
+        self.canvas.fill(self.palette.get_color("DARK_BLACK"))
 
         # Get the width and the height of the level, tiles, and the window.
         l_width, l_height = self.level.dimensions
@@ -186,6 +190,11 @@ class PaleShelter():
             tile_y += t_height
             tile_x = offset_x
 
+        self._draw_powerups()
+        self._draw_entities()
+        self._draw_lovemeter()
+
+    def _draw_powerups(self):
         for powerup in self.powerups:
             tex_x, tex_y = powerup.texture_position
             if powerup.activated:
@@ -193,13 +202,21 @@ class PaleShelter():
             self.canvas.blit(self.tilesets["powerups"].get_tile(
                 tex_x, tex_y), powerup.canvas_position)
 
+    def _draw_entities(self):
         # TODO: Replace texture for entities with animated sprites.
-        self.canvas.blit(self.tilesets["structure"].get_tile(
-            1, 0), self.player.position)
-
         for entity in self.entities:
             self.canvas.blit(self.tilesets["structure"].get_tile(
                 1, 0), entity.position)
+        self.canvas.blit(self.tilesets["structure"].get_tile(
+            1, 0), self.player.position)
+
+    def _draw_lovemeter(self):
+        progress = 248 * (self.player.love_meter / 100)
+        self.canvas.blit(self.love_meter_bg, (16, 16))
+        pygame.draw.rect(self.canvas, self.palette.get_color(
+            "METER_UPPER"), pygame.Rect(76, 40, progress, 8))
+        pygame.draw.rect(self.canvas, self.palette.get_color(
+            "METER_LOWER"), pygame.Rect(76, 48, progress, 8))
 
     def render(self) -> None:
         """Render the changes onto the screen."""
