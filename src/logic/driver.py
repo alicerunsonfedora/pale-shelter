@@ -32,6 +32,8 @@ class PaleShelter():
 
         self.ts_structures = Tilesheet(
             asset_path("assets/tilesets/struct01.png"), (48, 48), (9, 9))
+        self.ts_decor = Tilesheet(asset_path(
+            "assets/tilesets/decor01.png"), (48, 48), (22, 24))
 
         self.level = Level(asset_path("data/random01.lvl"))
         self.player = Player(self.init_entity_position("PLAYER"), 4)
@@ -127,6 +129,17 @@ class PaleShelter():
                 tile_x += t_width
 
             # Move to the next row and reset the X position.
+            tile_y += t_height
+            tile_x = offset_x
+
+        # Repeat the same process for the decor.
+        tile_x, tile_y = offset_x, offset_y
+        for row in self.level.decor:
+            for cx, cy in row:
+                if cx != -1 and cy != -1:
+                    self.canvas.blit(
+                        self.ts_decor.get_tile(cx, cy), (tile_x, tile_y))
+                tile_x += t_width
             tile_y += t_height
             tile_x = offset_x
 

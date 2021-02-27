@@ -28,10 +28,13 @@ class Level():
         """
         self.src = filepath
         self.tileset_name: str = ""
+        self.decor_tileset_name: str = ""
         self.dimensions: Tuple[int, int] = (0, 0)
         self.tile_definitions: Dict[str, Tuple[int, int]] = {" ": (-1, -1)}
         self.tiles: List[List[Tuple[int, int]]] = []
         self.entities: List[Tuple[str, Tuple[int, int]]] = []
+        self.decor_definitions: Dict[str, Tuple[int, int]] = {" ": (-1, -1)}
+        self.decor: List[List[Tuple[int, int]]] = []
 
         with open(filepath, "r") as file:
             self._parse_file([lin.strip("\n") for lin in file.readlines(
@@ -40,7 +43,7 @@ class Level():
     def __str__(self):
         return f"Level(tileset={self.tileset_name}, size={self.dimensions}, definitions={self.tile_definitions})"
 
-    def _parse_file(self, source):
+    def _parse_file(self, source: List[str]):
         if source[0] != "LIFELIGHT LEVEL":
             raise TypeError("File header for level file is corrupt.")
         source.pop(0)
@@ -49,6 +52,12 @@ class Level():
         if tileset_name[0] != "TILESET":
             raise TypeError("Tileset data is missing or corrupt.")
         self.tileset_name = tileset_name[1].lower().strip()
+
+        decor_name = source.pop(0).split(" ")
+        if decor_name[0] != "DECOR":
+            source.insert(0, " ".join(decor_name))
+        else:
+            self.decor_tileset_name = decor_name[1].lower().strip()
 
         dimensions = source.pop(0).split("  ")
         if dimensions[0] != "SIZE":
@@ -67,11 +76,26 @@ class Level():
                 self.tile_definitions[properties[0]] = tuple(
                     [int(val) for val in properties[1:]])
 
+        if self.decor_tileset_name.startswith("#"):
+            self.decor_definitions = parse_tiles(
+                f"data/ts_defs/{self.decor_tileset_name[1:]}.tsd")[1]
+        else:
+            if source.pop(0) == "BEGIN DECOR DEFINITIONS":
+                while (data := source.pop(0)) != "END DECOR DEFINITIONS":
+                    properties = data.split("  ")
+                    self.decor_definitions[properties[0]] = tuple(
+                        [int(val) for val in properties[1:]])
+
         if source.pop(0) != "BEGIN LAYOUT":
             raise TypeError("Layout block is missing or corrupt.")
 
         while (data := source.pop(0)) != "END LAYOUT":
             self.tiles.append([self.tile_definitions[tile] for tile in data])
+
+        if source.pop(0) == "BEGIN DECOR LAYOUT":
+            while (data := source.pop(0)) != "END DECOR LAYOUT":
+                self.decor.append([self.decor_definitions[tile]
+                                   for tile in data])
 
         if source.pop(0) != "BEGIN ENTITIES":
             raise TypeError("Entity block is missing or corrupt.")

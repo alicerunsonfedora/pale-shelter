@@ -1,0 +1,17 @@
+# The following file is a shared tileset definition. This file is used to re-use tileset definitions
+# across levels. The name of the tileset is provided. The first uncommented line of this file must
+# start with "LIFELIGHT TILESET", followed by a newline, to indicate that the file is a valid
+# definition file.
+LIFELIGHT TILESET
+TILESET DECOR01
+
+# Each character in the definitions section below is used to create the layout section for a level.
+# For each character, write a pair of numbers. The first number corresponds to the X position of the
+# tile in the tileset, going from left to right. The second number corresponds to the Y position of
+# the tile, going top-down.
+BEGIN DEFINITIONS
+A  0  0
+B  1  0
+C  0  1
+D  1  1
+END DEFINITIONS
