@@ -39,7 +39,6 @@ class PaleShelter():
 
         self.collidables = []
         self.made_first_paint = False
-        self.make_first_paint()
 
         self.entities: List[NonPlayerEntity] = []
         self.game_over = False
@@ -67,44 +66,6 @@ class PaleShelter():
         x, y = position
         position = (x * t_width) + offset_x, (y * t_height) + offset_y
         return position
-
-    def make_first_paint(self) -> None:
-        """Make the very first contentful paint of the level."""
-        # Get the width and the height of the level, tiles, and the window.
-        l_width, l_height = self.level.dimensions
-        t_width, t_height = self.ts_structures.tile_size
-        c_width, c_height = pygame.display.get_window_size()
-
-        # Get the center of the screen.
-        center_x, center_y = c_width / 2, c_height / 2
-
-        # Determine the offsets at which to draw the first tile on the screen.
-        offset_x = center_x - (t_width * (l_width / 2))
-        offset_y = center_y - (t_height * (l_height / 2))
-
-        # Create a coordinate that will represent the tiles, starting with the first tile from the offset.
-        tile_x, tile_y = offset_x, offset_y
-
-        # Iterate through all of the tilemap rows, filling the tilemap slowly.
-        for r_index, row in enumerate(self.level.tiles):
-
-            # Fill in the tile with the appropriate tileset image at that position, or don't fill anything if the tile
-            # is an "air" tile. Get the collidable data as well.
-            for c_index, (cx, cy) in enumerate(row):
-                if cx != -1 and cy != -1:
-                    tile = self.ts_structures.get_tile(cx, cy)
-                    if self.level.is_collidable((r_index, c_index)):
-                        self.collidables.append(
-                            pygame.Rect(tile_x, tile_y, t_width, t_height)
-                        )
-                    self.canvas.blit(tile, (tile_x, tile_y))
-                tile_x += t_width
-
-            # Move to the next row and reset the X position.
-            tile_y += t_height
-            tile_x = offset_x
-
-        self.made_first_paint = True
 
     def manage_game_events(self) -> bool:
         """Manage the primary game events such as quitting, player movement, etc."""
@@ -159,14 +120,22 @@ class PaleShelter():
         tile_x, tile_y = offset_x, offset_y
 
         # Iterate through all of the tilemap rows, filling the tilemap slowly.
-        for row in self.level.tiles:
+        for row_index, row in enumerate(self.level.tiles):
 
             # Fill in the tile with the appropriate tileset image at that position, or don't fill anything if the tile
             # is an "air" tile.
-            for cx, cy in row:
+            for col_index, (cx, cy) in enumerate(row):
                 if cx != -1 and cy != -1:
-                    self.canvas.blit(
-                        self.ts_structures.get_tile(cx, cy), (tile_x, tile_y))
+                    tile = self.ts_structures.get_tile(cx, cy)
+
+                    # If this is the "first paint", get all of the tiles that are collidable and store their
+                    # rectangles in the collidables list to help detect collisions for the player.
+                    if not self.made_first_paint and self.level.is_collidable((row_index, col_index)):
+                        self.collidables.append(
+                            pygame.Rect(tile_x, tile_y, t_width, t_height)
+                        )
+
+                    self.canvas.blit(tile, (tile_x, tile_y))
                 tile_x += t_width
 
             # Move to the next row and reset the X position.
@@ -193,4 +162,6 @@ class PaleShelter():
 
     def render(self) -> None:
         """Render the changes onto the screen."""
+        if not self.made_first_paint:
+            self.made_first_paint = True
         pygame.display.update()
