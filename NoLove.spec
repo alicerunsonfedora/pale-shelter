@@ -3,7 +3,8 @@
 block_cipher = None
 
 data_files = [
-    ("assets", "assets")
+    ("assets", "assets"),
+    ("data", "data")
 ]
 
 a = Analysis(['NoLove.py'],
@@ -24,7 +25,7 @@ exe = EXE(pyz,
           a.scripts,
           [],
           exclude_binaries=True,
-          name='Lifelight',
+          name='No Love',
           debug=False,
           bootloader_ignore_signals=False,
           strip=False,

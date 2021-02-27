@@ -18,7 +18,7 @@ class PaleShelter():
     def __init__(self, window_size: Tuple[int, int] = (1280, 720), fps: int = 60) -> None:
         """Set up the game's canvas, colors, tilesheets, and event listeners."""
 
-        self.canvas = pygame.display.set_mode(window_size, pygame.RESIZABLE)
+        self.canvas = pygame.display.set_mode(window_size)
         pygame.display.set_caption("No Love")
 
         self.frame_limiter = pygame.time.Clock()
