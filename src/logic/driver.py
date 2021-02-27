@@ -205,8 +205,9 @@ class PaleShelter():
     def _draw_entities(self):
         # TODO: Replace texture for entities with animated sprites.
         for entity in self.entities:
-            self.canvas.blit(self.tilesets["structure"].get_tile(
-                1, 0), entity.position)
+            ex, ey = entity.position
+            ey -= 48
+            self.canvas.blit(entity.get_texture(), (ex, ey))
 
         px, py = self.player.position
         py -= 48

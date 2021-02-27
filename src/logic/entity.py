@@ -8,6 +8,7 @@ from math import sqrt
 from random import randint
 from typing import Tuple
 from src.logic.player import Player
+from src.assets import Tilesheet, asset_path
 
 
 class NonPlayerEntity():
@@ -24,10 +25,15 @@ class NonPlayerEntity():
         self.max_love_level = float(randint(1, 10))
         self.current_love_level = 0.0
         self.love_seed = bool(randint(0, 1))
+        self.tilesheet = Tilesheet(asset_path(
+            f"assets/characters/{self.image_name}_idle.png"), (48, 96), (1, 4))
 
     @property
     def fulfilled(self):
         return self.current_love_level == self.max_love_level
+
+    def get_texture(self):
+        return self.tilesheet.get_tile(3, 0)
 
     def is_near(self, player: Player) -> bool:
         """Returns whether the entity is near a player in the world."""
