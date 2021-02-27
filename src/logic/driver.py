@@ -38,8 +38,9 @@ class PaleShelter():
                 asset_path("assets/tilesets/struct01.png"), (48, 48), (9, 9)),
             "decor": Tilesheet(asset_path(
                 "assets/tilesets/decor01.png"), (48, 48), (22, 24)),
-            "powerups": Tilesheet(
-                "assets/tilesets/powerups.png", (48, 48), (1, 2))
+            "powerups": Tilesheet(asset_path(
+                "assets/tilesets/powerups.png"), (48, 48), (1, 2)),
+            "ui": Tilesheet(asset_path("assets/ui/ui_master.png"), (48, 48), (12, 12))
         }
 
         self.level = Level(asset_path("data/random01.lvl"))
@@ -62,7 +63,7 @@ class PaleShelter():
             self.powerups.append(self._init_powerup(powerup))
 
         self.love_meter_bg = pygame.image.load(
-            asset_path("assets/hud/lovemeter.png"))
+            asset_path("assets/ui/lovemeter.png"))
 
     def get_canvas_position(self, position) -> Tuple[int, int]:
         l_width, l_height = self.level.dimensions
@@ -203,11 +204,20 @@ class PaleShelter():
                 tex_x, tex_y), powerup.canvas_position)
 
     def _draw_entities(self):
-        # TODO: Replace texture for entities with animated sprites.
         for entity in self.entities:
             ex, ey = entity.position
             ey -= 48
             self.canvas.blit(entity.get_texture(), (ex, ey))
+
+            if not entity.fulfilled:
+                continue
+
+            tx, ty = (6, 1) if entity.verify() else (7, 1)
+            ui_y_offset = 4
+            self.canvas.blit(
+                self.tilesets["ui"].get_tile(tx, ty), (ex, ey - ui_y_offset))
+            self.canvas.blit(
+                self.tilesets["ui"].get_tile(tx, ty-1), (ex, ey - (ui_y_offset + 48)))
 
         px, py = self.player.position
         py -= 48
