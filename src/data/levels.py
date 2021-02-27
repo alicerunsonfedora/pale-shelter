@@ -45,6 +45,8 @@ class Level():
 
         self.powerups: List[Tuple[int, int]] = []
 
+        self.exit = (-1, -1)
+
         with open(filepath, "r") as file:
             self._parse_file([lin.strip("\n") for lin in file.readlines(
             ) if lin != "\n" and not lin.startswith("#")])
@@ -76,6 +78,11 @@ class Level():
         if dimensions[0] != "SIZE":
             raise TypeError("Level dimensions is missing or corrupt.")
         self.dimensions = tuple([int(dim) for dim in dimensions[1:]])
+
+        exit = source.pop(0).split("  ")
+        if exit[0] != "EXIT":
+            raise TypeError("Exit block is missing or corrupt.")
+        self.exit = tuple([int(axis) for axis in exit[1:]])
 
         if self.tileset_name.startswith("#"):
             _, self.tile_definitions, collidable_tile_data = parse_tiles(

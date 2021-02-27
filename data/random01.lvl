@@ -8,6 +8,7 @@ LIFELIGHT LEVEL
 TILESET #STRUCT01
 DECOR #DECOR01
 SIZE  6  8
+EXIT  3  7
 
 # Each character in the definitions section below is used to create the layout section. If the
 # tileset is shared, this section is unnecessary as the definition file for that tileset will
@@ -27,7 +28,7 @@ QZFFFE
 CSJFKV
   QFE 
   QFE 
-  CSV 
+      
 END LAYOUT
 
 BEGIN DECOR LAYOUT

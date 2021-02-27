@@ -46,6 +46,9 @@ class PaleShelter():
         self.level = Level(asset_path("data/random01.lvl"))
         self.player = Player(self._init_entity_position("PLAYER"), 4)
 
+        exit_x, exit_y = self.get_canvas_position(self.level.exit)
+        self.exit_trigger = pygame.Rect(exit_x, exit_y, 48, 48)
+
         self.collidables = []
         self.made_first_paint = False
 
@@ -133,6 +136,10 @@ class PaleShelter():
 
         for powerup in self.powerups:
             powerup.activate_event(self.player)
+
+        player_x, player_y = self.player.position
+        if self.exit_trigger.collidepoint(player_x, player_y):
+            return False
 
         return not self.game_over
 
