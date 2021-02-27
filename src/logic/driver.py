@@ -4,12 +4,14 @@
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 #
 
+from random import randint
 from typing import Dict, List, Tuple
+import pygame
+
 from src.logic.player import Player
 from src.logic.entity import NonPlayerEntity
 from src.logic.powerup import Powerup
 from src.data.levels import Level
-import pygame
 from src.assets import Tilesheet, ColorPalette, asset_path
 
 
@@ -30,10 +32,14 @@ class PaleShelter():
         self.palette.assign_color_name("DARK_BLACK", "1e2029")
         self.palette.assign_color_name("PINK", "ff9e95")
 
-        self.ts_structures = Tilesheet(
-            asset_path("assets/tilesets/struct01.png"), (48, 48), (9, 9))
-        self.ts_decor = Tilesheet(asset_path(
-            "assets/tilesets/decor01.png"), (48, 48), (22, 24))
+        self.tilesets = {
+            "structure": Tilesheet(
+                asset_path("assets/tilesets/struct01.png"), (48, 48), (9, 9)),
+            "decor": Tilesheet(asset_path(
+                "assets/tilesets/decor01.png"), (48, 48), (22, 24)),
+            "powerups": Tilesheet(
+                "assets/tilesets/powerups.png", (48, 48), (1, 2))
+        }
 
         self.level = Level(asset_path("data/random01.lvl"))
         self.player = Player(self._init_entity_position("PLAYER"), 4)
@@ -54,6 +60,17 @@ class PaleShelter():
         for powerup in self.level.powerups:
             self.powerups.append(self._init_powerup(powerup))
 
+    def get_canvas_position(self, position) -> Tuple[int, int]:
+        l_width, l_height = self.level.dimensions
+        t_width, t_height = self.tilesets["structure"].tile_size
+        c_width, c_height = pygame.display.get_window_size()
+        center_x, center_y = c_width / 2, c_height / 2
+        offset_x = center_x - (t_width * (l_width / 2))
+        offset_y = center_y - (t_height * (l_height / 2))
+        x, y = position
+        c_position = (x * t_width) + offset_x, (y * t_height) + offset_y
+        return c_position
+
     def _init_entity_position(self, entity) -> Tuple[int, int]:
         position = 0, 0
         for ent_name, ent_position in self.level.entities:
@@ -61,28 +78,18 @@ class PaleShelter():
                 continue
             position = ent_position
             break
-
-        l_width, l_height = self.level.dimensions
-        t_width, t_height = self.ts_structures.tile_size
-        c_width, c_height = pygame.display.get_window_size()
-        center_x, center_y = c_width / 2, c_height / 2
-        offset_x = center_x - (t_width * (l_width / 2))
-        offset_y = center_y - (t_height * (l_height / 2))
-        x, y = position
-        position = (x * t_width) + offset_x, (y * t_height) + offset_y
-        return position
+        return self.get_canvas_position(position)
 
     def _init_powerup(self, powerup) -> Powerup:
-        position = powerup
-        l_width, l_height = self.level.dimensions
-        t_width, t_height = self.ts_structures.tile_size
-        c_width, c_height = pygame.display.get_window_size()
-        center_x, center_y = c_width / 2, c_height / 2
-        offset_x = center_x - (t_width * (l_width / 2))
-        offset_y = center_y - (t_height * (l_height / 2))
-        x, y = position
-        position = (x * t_width) + offset_x, (y * t_height) + offset_y
-        return Powerup(position, (0, 0), self._powerup_black_heart)
+        position = self.get_canvas_position(powerup)
+        random_seed = randint(1, 76)
+        if random_seed >= 34:
+            callback = self._powerup_heart
+            texture = (0, 0)
+        else:
+            callback = self._powerup_black_heart
+            texture = (1, 0)
+        return Powerup(position, texture, callback)
 
     def _powerup_black_heart(self):
         self.player.subtract_love(5.0)
@@ -132,7 +139,7 @@ class PaleShelter():
 
         # Get the width and the height of the level, tiles, and the window.
         l_width, l_height = self.level.dimensions
-        t_width, t_height = self.ts_structures.tile_size
+        t_width, t_height = self.tilesets["structure"].tile_size
         c_width, c_height = pygame.display.get_window_size()
 
         # Get the center of the screen.
@@ -152,7 +159,7 @@ class PaleShelter():
             # is an "air" tile.
             for col_index, (cx, cy) in enumerate(row):
                 if cx != -1 and cy != -1:
-                    tile = self.ts_structures.get_tile(cx, cy)
+                    tile = self.tilesets["structure"].get_tile(cx, cy)
 
                     # If this is the "first paint", get all of the tiles that are collidable and store their
                     # rectangles in the collidables list to help detect collisions for the player.
@@ -174,22 +181,24 @@ class PaleShelter():
             for cx, cy in row:
                 if cx != -1 and cy != -1:
                     self.canvas.blit(
-                        self.ts_decor.get_tile(cx, cy), (tile_x, tile_y))
+                        self.tilesets["decor"].get_tile(cx, cy), (tile_x, tile_y))
                 tile_x += t_width
             tile_y += t_height
             tile_x = offset_x
 
         for powerup in self.powerups:
+            tex_x, tex_y = powerup.texture_position
             if powerup.activated:
                 continue
-            self.canvas.blit(self.ts_structures.get_tile(
-                0, 0), powerup.canvas_position)
+            self.canvas.blit(self.tilesets["powerups"].get_tile(
+                tex_x, tex_y), powerup.canvas_position)
 
-        self.canvas.blit(self.ts_structures.get_tile(
+        # TODO: Replace texture for entities with animated sprites.
+        self.canvas.blit(self.tilesets["structure"].get_tile(
             1, 0), self.player.position)
 
         for entity in self.entities:
-            self.canvas.blit(self.ts_structures.get_tile(
+            self.canvas.blit(self.tilesets["structure"].get_tile(
                 1, 0), entity.position)
 
     def render(self) -> None:
