@@ -71,7 +71,7 @@ class Tilesheet():
             The image subsurface at the specified position in the tilesheet.
         """
         _tile = self._lut[x][y]
-        return self._image.subsurface((_tile.x, _tile.y, _tile.width, _tile.height))
+        return self._image.subsurface((_tile.x, _tile.y, _tile.width, _tile.height)).convert_alpha()
 
     def get_named_tile(self, name: str, fallback_position: Tuple[int, int] = (0, 0)) -> pygame.Surface:
         """Returns a tile with a specified name.

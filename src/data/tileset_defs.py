@@ -8,16 +8,18 @@ from typing import Dict, Tuple
 from src.assets import asset_path
 
 
-def parse_tiles(filepath: str) -> Tuple[str, Dict[str, Tuple[int, int]]]:
+def parse_tiles(filepath: str) -> Tuple[str, Dict[str, Tuple[int, int]], Dict[str, bool]]:
     """Parse a tileset definition file and get the definitions for a given tileset.
 
     Arguments:
         filepath (str): The relative path to the tileset definition file to parse.
 
     Returns:
-        A tuple containing the tileset name and a dictionary of definitions for the tiles.
+        A tuple containing the tileset name, a dictionary of definitions for the tiles, a dictionary containing which
+            tiles are collidable.
     """
     definitions = {' ': (-1, -1)}
+    collidable = {' ': False}
     with open(asset_path(filepath), "r") as file:
         source = [line.strip() for line in file.readlines()
                   if line != "\n" and not line.startswith("#")]
@@ -35,7 +37,9 @@ def parse_tiles(filepath: str) -> Tuple[str, Dict[str, Tuple[int, int]]]:
 
     while (data := source.pop(0)) != "END DEFINITIONS":
         definition_line = data.split("  ")
-        definitions[definition_line[0]] = tuple(
+        name = definition_line[0]
+        definitions[name.replace("$", "")] = tuple(
             [int(i) for i in definition_line[1:]])
+        collidable[name.replace("$", "")] = name.startswith("$")
 
-    return ts_name, definitions
+    return ts_name, definitions, collidable

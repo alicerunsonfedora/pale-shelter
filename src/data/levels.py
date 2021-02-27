@@ -4,7 +4,7 @@
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 #
 
-from typing import List, Tuple, Dict
+from typing import List, Tuple, Dict, NewType
 from src.data.tileset_defs import parse_tiles
 
 
@@ -35,6 +35,7 @@ class Level():
         self.entities: List[Tuple[str, Tuple[int, int]]] = []
         self.decor_definitions: Dict[str, Tuple[int, int]] = {" ": (-1, -1)}
         self.decor: List[List[Tuple[int, int]]] = []
+        self.collidable_tiles: List[Tuple[int, int]] = []
 
         with open(filepath, "r") as file:
             self._parse_file([lin.strip("\n") for lin in file.readlines(
@@ -42,6 +43,10 @@ class Level():
 
     def __str__(self):
         return f"Level(tileset={self.tileset_name}, size={self.dimensions}, definitions={self.tile_definitions})"
+
+    def is_collidable(self, coordinate: Tuple[int, int]) -> bool:
+        x, y = coordinate
+        return self.tiles[x][y] in self.collidable_tiles
 
     def _parse_file(self, source: List[str]):
         if source[0] != "LIFELIGHT LEVEL":
@@ -65,8 +70,13 @@ class Level():
         self.dimensions = tuple([int(dim) for dim in dimensions[1:]])
 
         if self.tileset_name.startswith("#"):
-            self.tile_definitions = parse_tiles(
-                f"data/ts_defs/{self.tileset_name[1:]}.tsd")[1]
+            _, self.tile_definitions, collidable_tile_data = parse_tiles(
+                f"data/ts_defs/{self.tileset_name[1:]}.tsd")
+
+            for tile in self.tile_definitions:
+                if collidable_tile_data[tile]:
+                    self.collidable_tiles.append(self.tile_definitions[tile])
+
         else:
             if source.pop(0) != "BEGIN DEFINITIONS":
                 raise TypeError("Definition block is missing or corrupt.")

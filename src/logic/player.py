@@ -7,7 +7,7 @@
 """The player module contains code surrounding the player in the game."""
 import pygame
 from random import random
-from typing import Tuple, Dict
+from typing import List, Tuple, Dict
 
 
 class Player():
@@ -20,9 +20,10 @@ class Player():
             origin (tuple): The position of the player when the level starts. Defaults to the origin (0, 0).
             speed (int): The rate at which the player moves on screen. Defaults to 1.
         """
-        self.position = origin
+        self.position = left, top = origin
         self.move_rate = speed
         self.love_meter = 100.0
+        self.bounds = pygame.Rect(left, top, 36, 36)
 
     def calculate_position(self, pressed: Dict[int, bool]) -> Tuple[int, int]:
         """Returns the new position based on what keys are pressed."""
@@ -37,10 +38,19 @@ class Player():
             y += self.move_rate
         return x, y
 
-    def read_from_pressed(self, pressed: Dict[int, bool]) -> None:
+    def update_position(self, pressed: Dict[int, bool], collidable_tiles: List[pygame.Rect] = []) -> None:
         """Update the position of the player based on what keys are being pressed, and change the love accordingly."""
-        self.position = self.calculate_position(pressed)
+        new_position = left, top = self.calculate_position(pressed)
+        if new_position == self.position:
+            return
 
+        colliding = False
+        new_player_bounds = pygame.Rect(left, top, 36, 36)
+        for tile in collidable_tiles:
+            if bool(tile.colliderect(new_player_bounds)):
+                colliding = True
+        if not colliding:
+            self.position = new_position
 
     def update_love(self) -> None:
         """Randomly drain the love on every tick."""
