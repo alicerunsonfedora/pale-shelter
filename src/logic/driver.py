@@ -207,8 +207,10 @@ class PaleShelter():
         for entity in self.entities:
             self.canvas.blit(self.tilesets["structure"].get_tile(
                 1, 0), entity.position)
-        self.canvas.blit(self.tilesets["structure"].get_tile(
-            1, 0), self.player.position)
+
+        px, py = self.player.position
+        py -= 48
+        self.canvas.blit(self.player.get_texture(), (px, py))
 
     def _draw_lovemeter(self):
         progress = 248 * (self.player.love_meter / 100)
