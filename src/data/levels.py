@@ -27,15 +27,23 @@ class Level():
             filepath(str): The path to the file to open and parse level data from.
         """
         self.src = filepath
+
         self.tileset_name: str = ""
         self.decor_tileset_name: str = ""
+
         self.dimensions: Tuple[int, int] = (0, 0)
+
         self.tile_definitions: Dict[str, Tuple[int, int]] = {" ": (-1, -1)}
         self.tiles: List[List[Tuple[int, int]]] = []
+
         self.entities: List[Tuple[str, Tuple[int, int]]] = []
+
         self.decor_definitions: Dict[str, Tuple[int, int]] = {" ": (-1, -1)}
         self.decor: List[List[Tuple[int, int]]] = []
+
         self.collidable_tiles: List[Tuple[int, int]] = []
+
+        self.powerups: List[Tuple[int, int]] = []
 
         with open(filepath, "r") as file:
             self._parse_file([lin.strip("\n") for lin in file.readlines(
@@ -114,3 +122,8 @@ class Level():
             entity_data = data.split("  ")
             self.entities.append((entity_data[0], tuple(
                 [int(val) for val in entity_data[1:]])))
+
+        if source.pop(0) == "BEGIN POWERUPS":
+            while (data := source.pop(0)) != "END POWERUPS":
+                self.powerups.append(
+                    tuple([int(val) for val in data.split("  ")]))

@@ -7,6 +7,7 @@
 from typing import Dict, List, Tuple
 from src.logic.player import Player
 from src.logic.entity import NonPlayerEntity
+from src.logic.powerup import Powerup
 from src.data.levels import Level
 import pygame
 from src.assets import Tilesheet, ColorPalette, asset_path
@@ -49,6 +50,10 @@ class PaleShelter():
             self.entities.append(NonPlayerEntity(
                 self._init_entity_position(name)))
 
+        self.powerups: List[Powerup] = []
+        for powerup in self.level.powerups:
+            self.powerups.append(self._init_powerup(powerup))
+
     def _init_entity_position(self, entity) -> Tuple[int, int]:
         position = 0, 0
         for ent_name, ent_position in self.level.entities:
@@ -66,6 +71,24 @@ class PaleShelter():
         x, y = position
         position = (x * t_width) + offset_x, (y * t_height) + offset_y
         return position
+
+    def _init_powerup(self, powerup) -> Powerup:
+        position = powerup
+        l_width, l_height = self.level.dimensions
+        t_width, t_height = self.ts_structures.tile_size
+        c_width, c_height = pygame.display.get_window_size()
+        center_x, center_y = c_width / 2, c_height / 2
+        offset_x = center_x - (t_width * (l_width / 2))
+        offset_y = center_y - (t_height * (l_height / 2))
+        x, y = position
+        position = (x * t_width) + offset_x, (y * t_height) + offset_y
+        return Powerup(position, (0, 0), self._powerup_black_heart)
+
+    def _powerup_black_heart(self):
+        self.player.subtract_love(5.0)
+
+    def _powerup_heart(self):
+        self.player.add_love(5.0)
 
     def manage_game_events(self) -> bool:
         """Manage the primary game events such as quitting, player movement, etc."""
@@ -95,6 +118,9 @@ class PaleShelter():
 
             if entity.verify():
                 self.game_over = True
+
+        for powerup in self.powerups:
+            powerup.activate_event(self.player)
 
         return not self.game_over
 
@@ -152,6 +178,12 @@ class PaleShelter():
                 tile_x += t_width
             tile_y += t_height
             tile_x = offset_x
+
+        for powerup in self.powerups:
+            if powerup.activated:
+                continue
+            self.canvas.blit(self.ts_structures.get_tile(
+                0, 0), powerup.canvas_position)
 
         self.canvas.blit(self.ts_structures.get_tile(
             1, 0), self.player.position)

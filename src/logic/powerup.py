@@ -18,7 +18,7 @@ class Powerup():
         self.boundaries = Rect(left, top, 48, 48)
 
     def activate_event(self, player: Player):
-        if not self.boundaries.collidepoint(player.position) and not self.activated:
+        if not self.boundaries.collidepoint(player.position) or self.activated:
             return
         self.callback()
         self.activated = True
