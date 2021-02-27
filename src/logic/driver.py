@@ -69,7 +69,7 @@ class PaleShelter():
 
     def manage_game_events(self) -> bool:
         """Manage the primary game events such as quitting, player movement, etc."""
-        self.frame_limiter.tick(self.fps)
+        delta = self.frame_limiter.tick(self.fps) / 1000
 
         self.player.update_love()
         if self.player.love_meter <= 0:
@@ -80,7 +80,7 @@ class PaleShelter():
                 return False
 
         pressed: Dict[int, bool] = pygame.key.get_pressed()
-        self.player.update_position(pressed, self.collidables)
+        self.player.update_position(pressed, delta, self.collidables)
 
         for entity in self.entities:
             if not entity.is_near(self.player):

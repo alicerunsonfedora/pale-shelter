@@ -24,6 +24,7 @@ class Player():
         self.move_rate = speed
         self.love_meter = 100.0
         self.bounds = pygame.Rect(left, top, 36, 36)
+        self.current_interval = 0.0
 
     def calculate_position(self, pressed: Dict[int, bool]) -> Tuple[int, int]:
         """Returns the new position based on what keys are pressed."""
@@ -38,7 +39,7 @@ class Player():
             y += self.move_rate
         return x, y
 
-    def update_position(self, pressed: Dict[int, bool], collidable_tiles: List[pygame.Rect] = []) -> None:
+    def update_position(self, pressed: Dict[int, bool], delta_time: float, collidable_tiles: List[pygame.Rect] = []) -> None:
         """Update the position of the player based on what keys are being pressed, and change the love accordingly."""
         new_position = left, top = self.calculate_position(pressed)
         if new_position == self.position:
@@ -49,8 +50,12 @@ class Player():
         for tile in collidable_tiles:
             if bool(tile.colliderect(new_player_bounds)):
                 colliding = True
-        if not colliding:
-            self.position = new_position
+        if colliding:
+            return
+
+        self.position = new_position
+        self.current_interval += delta_time
+        # TODO: Write code here to switch frames.
 
     def update_love(self) -> None:
         """Randomly drain the love on every tick."""
