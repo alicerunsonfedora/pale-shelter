@@ -55,7 +55,7 @@ class PaleShelter():
             if name == "PLAYER":
                 continue
             self.entities.append(NonPlayerEntity(
-                self._init_entity_position(name)))
+                name, self._init_entity_position(name)))
 
         self.powerups: List[Powerup] = []
         for powerup in self.level.powerups:

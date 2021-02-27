@@ -25,6 +25,7 @@ class Player():
         self.love_meter = 100.0
         self.bounds = pygame.Rect(left, top, 36, 36)
         self.current_interval = 0.0
+        self.image_name = "amelia"
 
     def calculate_position(self, pressed: Dict[int, bool]) -> Tuple[int, int]:
         """Returns the new position based on what keys are pressed."""

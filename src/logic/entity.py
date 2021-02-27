@@ -13,12 +13,13 @@ from src.logic.player import Player
 class NonPlayerEntity():
     """A non-player entity that a player can interact with to attempt to get into a relationship with."""
 
-    def __init__(self, position: Tuple[int, int]) -> None:
+    def __init__(self, name: str, position: Tuple[int, int]) -> None:
         """Create an entity.
 
         Arguments:
             position (tuple): The entity's position on the map.
         """
+        self.image_name = name.lower()
         self.position = position
         self.max_love_level = float(randint(1, 10))
         self.current_love_level = 0.0
