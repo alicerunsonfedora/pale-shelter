@@ -16,6 +16,7 @@ def main():
     pygame.init()
     state_mgr = GameStateManager()
     state_mgr.state = GameState.MENU
+    player_love_meter = 100.0
 
     WINDOW = pygame.display.set_mode((1280, 720))
     pygame.display.set_caption("No Love")
@@ -36,9 +37,11 @@ def main():
         if state_mgr.state == GameState.IN_GAME:
             random_level = f"random0{randint(1, 2)}"
             scene: GameScene = GameDriver(WINDOW, CLOCK, random_level, FPS)
+            scene.player.love_meter = player_love_meter
             managed_loop = True
             while managed_loop:
                 managed_loop = scene.lifecycle()
+            player_love_meter = scene.player.love_meter
             if scene.game_over:
                 state_mgr.state = GameState.GAME_OVER
         if state_mgr.state == GameState.GAME_OVER:
