@@ -4,8 +4,18 @@ block_cipher = None
 
 data_files = [
     ("assets", "assets"),
-    ("data", "data")
+    ("data", "data"),
+    ("LICENSE", "."),
+    ("CREDITS.txt", ".")
 ]
+
+PLIST = {
+    'NSPrincipalClass': 'NSApplication',
+    'CFBundleShortVersionString': '1.0.0',
+    'CFBundleVersion': '1.0.0',
+    'LSMinimumSystemVersion': '10.15',
+    'NSHumanReadableCopyright': 'Copyright © 2021 Marquis Kurt. All rights reserved.'
+}
 
 a = Analysis(['NoLove.py'],
              pathex=['/Users/marquiskurt/Developer/pale_shelter'],
@@ -30,6 +40,7 @@ exe = EXE(pyz,
           bootloader_ignore_signals=False,
           strip=False,
           upx=True,
+          icon='icon.ico',
           console=False )
 coll = COLLECT(exe,
                a.binaries,
@@ -41,5 +52,7 @@ coll = COLLECT(exe,
                name='No Love')
 app = BUNDLE(coll,
              name='No Love.app',
-             icon=None,
-             bundle_identifier="net.marquiskurt.pale-shelter")
+             icon="icon.icns",
+             bundle_identifier="net.marquiskurt.pale-shelter",
+             info_plist=PLIST
+            )
