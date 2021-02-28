@@ -25,9 +25,15 @@ class GameDriver(GameScene):
         self.palette.assign_color_name("METER_UPPER", "a3c255")
         self.palette.assign_color_name("METER_LOWER", "6fa341")
 
+        self.sfx = {
+            "powerup_black_heart": pygame.mixer.Sound(asset_path("assets/audio/pup_blackheart.wav")),
+            "powerup_heart": pygame.mixer.Sound(asset_path("assets/audio/pup_heart.wav")),
+            "response": pygame.mixer.Sound(asset_path("assets/audio/response.wav"))
+        }
+
         self.tilesets = {
             "structure": Tilesheet(
-                asset_path("assets/tilesets/struct01.png"), (48, 48), (9, 9)),
+                asset_path(f"assets/tilesets/struct0{randint(1, 6)}.png"), (48, 48), (10, 10)),
             "decor": Tilesheet(asset_path(
                 "assets/tilesets/decor01.png"), (48, 48), (22, 24)),
             "powerups": Tilesheet(asset_path(
@@ -92,9 +98,11 @@ class GameDriver(GameScene):
         return Powerup(position, texture, callback)
 
     def _powerup_black_heart(self):
+        pygame.mixer.Sound.play(self.sfx["powerup_black_heart"])
         self.player.subtract_love(5.0)
 
     def _powerup_heart(self):
+        pygame.mixer.Sound.play(self.sfx["powerup_heart"])
         self.player.add_love(5.0)
 
     def manage_game_events(self) -> bool:
@@ -109,15 +117,14 @@ class GameDriver(GameScene):
         self.player.update_position(pressed, self.delta, self.collidables)
 
         for entity in self.entities:
-            if not entity.is_near(self.player):
-                continue
-            if not pressed[pygame.K_e]:
-                continue
-            if entity.fulfilled:
+            if not entity.is_near(self.player) or not pressed[pygame.K_e] or entity.fulfilled:
                 continue
 
             self.player.subtract_love(0.5)
             entity.transfer(0.5)
+
+            if entity.fulfilled:
+                pygame.mixer.Sound.play(self.sfx["response"])
 
             if entity.verify():
                 self.game_over = True

@@ -24,7 +24,7 @@ class NonPlayerEntity():
         self.position = position
         self.max_love_level = float(randint(1, 10))
         self.current_love_level = 0.0
-        self.love_seed = bool(randint(0, 1))
+        self.love_seed = randint(1, 20) >= 15
         self.tilesheet = Tilesheet(asset_path(
             f"assets/characters/{self.image_name}_idle.png"), (48, 96), (1, 4))
 

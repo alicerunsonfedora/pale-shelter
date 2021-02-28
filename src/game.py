@@ -5,9 +5,11 @@
 #
 from random import randint
 import pygame
+
 from src.logic.state import GameState, GameStateManager
 from src.logic.scene import GameScene
-from src.logic.scenes import GameDriver, MainMenu
+from src.logic.scenes import GameDriver, MainMenu, GameOver
+from src.assets import asset_path
 
 
 def main():
@@ -17,6 +19,9 @@ def main():
     state_mgr = GameStateManager()
     state_mgr.state = GameState.MENU
     player_love_meter = 100.0
+
+    pygame.mixer.music.load(asset_path("assets/audio/heartache.mp3"))
+    pygame.mixer.music.play(-1)
 
     WINDOW = pygame.display.set_mode((1280, 720))
     pygame.display.set_caption("No Love")
@@ -34,7 +39,7 @@ def main():
                 state_mgr.state = GameState.IN_GAME
             else:
                 state_mgr.state = GameState.EXIT
-        if state_mgr.state == GameState.IN_GAME:
+        elif state_mgr.state == GameState.IN_GAME:
             random_level = f"random0{randint(1, 2)}"
             scene: GameScene = GameDriver(WINDOW, CLOCK, random_level, FPS)
             scene.player.love_meter = player_love_meter
@@ -44,8 +49,16 @@ def main():
             player_love_meter = scene.player.love_meter
             if scene.game_over:
                 state_mgr.state = GameState.GAME_OVER
-        if state_mgr.state == GameState.GAME_OVER:
-            state_mgr.state = GameState.EXIT
+        elif state_mgr.state == GameState.GAME_OVER:
+            scene: GameScene = GameOver(WINDOW, CLOCK, FPS)
+            managed_loop = True
+            while managed_loop:
+                managed_loop = scene.lifecycle()
+            if scene.action == "retry":
+                state_mgr.state = GameState.IN_GAME
+                player_love_meter = 100.0
+            else:
+                state_mgr.state = GameState.MENU
 
     pygame.quit()
 
