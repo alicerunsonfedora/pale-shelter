@@ -49,7 +49,7 @@ class Level():
         self.decor_definitions: Dict[str, Tuple[int, int]] = {" ": (-1, -1)}
         self.decor: List[List[Tuple[int, int]]] = []
 
-        self.collidable_tiles: List[Tuple[int, int]] = []
+        self.collidable_tiles: List[Tuple[int, int]] = [(-1, -1)]
 
         self.powerups: List[Tuple[int, int]] = []
 

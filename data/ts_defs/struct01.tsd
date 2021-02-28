@@ -8,25 +8,31 @@ TILESET STRUCT01
 # Each character in the definitions section below is used to create the layout section for a level.
 # For each character, write a pair of numbers. The first number corresponds to the X position of the
 # tile in the tileset, going from left to right. The second number corresponds to the Y position of
-# the tile, going top-down.
+# the tile, going top-down. Add a dollar sign ('$') to the front of a character to denote it as collidable.
 BEGIN DEFINITIONS
-$W  0  1
-$Q  0  3
-$E  3  2
-$A  2  1
-$S  1  5
-$C  0  5
-$V  3  5
-$X  3  1
-$J  0  7
-$K  1  7
-$G  8  6
-$H  8  7
-I  8  8
-R  8  9
-B  2  2
-F  2  4
-M  1  3
-N  2  3
-Z  1  4
+$A  0  1
+$B  1  1
+$C  2  1
+$D  3  1
+$E  0  2
+$F  3  2
+G  1  2
+H  2  2
+I  1  3
+J  2  3
+K  1  4
+L  2  4
+$M  0  5
+$N  1  5
+$O  3  5
+$P  0  6
+$Q  1  6
+$R  0  7
+$S  1  7
+$T  7  5
+$U  8  5
+$V  9  5
+$X  8  7
+$Y  8  8
+Z  8  9
 END DEFINITIONS

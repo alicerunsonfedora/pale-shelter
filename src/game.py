@@ -56,12 +56,12 @@ def main():
 
         # If the current state is game over, display the game over screen until the player presses a button.
         elif state_mgr.state == GameState.GAME_OVER:
+            state_mgr.player_meter = 100.0
             scene: GameScene = GameOver(WINDOW, CLOCK, FPS)
             managed_loop = True
             while managed_loop:
                 managed_loop = scene.lifecycle()
             if scene.action == "retry":
-                state_mgr.player_meter = 100.0
                 state_mgr.state = GameState.IN_GAME
             else:
                 state_mgr.state = GameState.MENU

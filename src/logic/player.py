@@ -110,7 +110,7 @@ class Player():
         if self.love_meter <= 0.0:
             self.love_meter = 0.0
         else:
-            self.love_meter -= random() * 0.00001
+            self.love_meter -= random() * 0.001
 
     def add_love(self, amount: float) -> None:
         """Add love by a given amount."""

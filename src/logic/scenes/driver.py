@@ -166,16 +166,15 @@ class GameDriver(GameScene):
             # Fill in the tile with the appropriate tileset image at that position, or don't fill anything if the tile
             # is an "air" tile.
             for col_index, (cx, cy) in enumerate(row):
+
+                # If this is the "first paint", get all of the tiles that are collidable and store their
+                # rectangles in the collidables list to help detect collisions for the player.
+                if not self.made_first_paint and self.level.is_collidable((row_index, col_index)):
+                    self.collidables.append(
+                        pygame.Rect(tile_x, tile_y, t_width, t_height)
+                    )
                 if cx != -1 and cy != -1:
                     tile = self.tilesets["structure"].get_tile(cx, cy)
-
-                    # If this is the "first paint", get all of the tiles that are collidable and store their
-                    # rectangles in the collidables list to help detect collisions for the player.
-                    if not self.made_first_paint and self.level.is_collidable((row_index, col_index)):
-                        self.collidables.append(
-                            pygame.Rect(tile_x, tile_y, t_width, t_height)
-                        )
-
                     self.canvas.blit(tile, (tile_x, tile_y))
                 tile_x += t_width
 
