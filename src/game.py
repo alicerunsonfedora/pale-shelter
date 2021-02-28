@@ -22,6 +22,7 @@ def main():
 
     pygame.mixer.music.load(asset_path("assets/audio/heartache.mp3"))
     pygame.mixer.music.play(-1)
+    pygame.mixer.music.set_volume(0.1)
 
     WINDOW = pygame.display.set_mode((1280, 720))
     pygame.display.set_caption("No Love")
@@ -60,8 +61,8 @@ def main():
             while managed_loop:
                 managed_loop = scene.lifecycle()
             if scene.action == "retry":
-                state_mgr.state = GameState.IN_GAME
                 state_mgr.player_meter = 100.0
+                state_mgr.state = GameState.IN_GAME
             else:
                 state_mgr.state = GameState.MENU
 

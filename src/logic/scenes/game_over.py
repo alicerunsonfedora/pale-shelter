@@ -36,7 +36,7 @@ class GameOver(GameScene):
         if clicked[0]:
             mouse_pos = pygame.mouse.get_pos()
             if self.retry_rect.collidepoint(mouse_pos):
-                self.action = "start"
+                self.action = "retry"
                 return False
             elif self.menu_rect.collidepoint(mouse_pos):
                 self.action = "menu"
