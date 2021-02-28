@@ -1,5 +1,4 @@
 # -*- mode: python ; coding: utf-8 -*-
-
 block_cipher = None
 
 data_files = [
@@ -43,16 +42,16 @@ exe = EXE(pyz,
           icon='icon.ico',
           console=False )
 coll = COLLECT(exe,
-               a.binaries,
-               a.zipfiles,
-               a.datas,
-               strip=False,
-               upx=True,
-               upx_exclude=[],
-               name='No Love')
+                a.binaries,
+                a.zipfiles,
+                a.datas,
+                strip=False,
+                upx=True,
+                upx_exclude=[],
+                name='No Love')
 app = BUNDLE(coll,
-             name='No Love.app',
-             icon="icon.icns",
-             bundle_identifier="net.marquiskurt.pale-shelter",
-             info_plist=PLIST
+            name='No Love.app',
+            icon="icon.icns",
+            bundle_identifier="net.marquiskurt.pale-shelter",
+            info_plist=PLIST
             )

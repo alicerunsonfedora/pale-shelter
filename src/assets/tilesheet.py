@@ -50,7 +50,7 @@ class Tilesheet():
         """
         self._rows, self._cols = sheet_size
         self._width, self._height = image_size
-        self._image = pygame.image.load(path).convert()
+        self._image = pygame.image.load(path)
         self._lut = [[Tile(x * self._width, y * self._width, (self._width, self._height))
                       for y in range(0, self._rows)] for x in range(0, self._cols)]
         self._registry = {}
