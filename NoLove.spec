@@ -10,8 +10,8 @@ data_files = [
 
 PLIST = {
     'NSPrincipalClass': 'NSApplication',
-    'CFBundleShortVersionString': '1.0.0',
-    'CFBundleVersion': '1.0.0',
+    'CFBundleShortVersionString': '1.0.1',
+    'CFBundleVersion': '1.0.1',
     'LSMinimumSystemVersion': '10.15',
     'NSHumanReadableCopyright': 'Copyright © 2021 Marquis Kurt. All rights reserved.'
 }
