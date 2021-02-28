@@ -29,7 +29,7 @@ def pseudo_random_number(maximum_value, previous=1):
         previous (int): The previous number to skip in the random picking. Defaults to 1.
 
     Returns:
-        A random integer that is not 
+        A random integer that is not the previous number.
     """
     val = randint(1, maximum_value)
     if val != previous:
