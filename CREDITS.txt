@@ -1,5 +1,7 @@
 Special thanks to the following people and groups that helped make this game possible.
 
-- Jonas Tryoller, for hosting the Wowie! Jam 3.0
+- Jonas Tyroller, for hosting the Wowie! Jam 3.0
 - LimeZu, for creating the tileset and characters used in the game
 - Jim Hall, for creating the background music ("Heartache")
+- The SFXr developers, for creating the tool that made the sound effects
+- My Twitch audience, for feedback and moral support
