@@ -12,7 +12,7 @@ from src.assets import asset_path
 class GameOver(GameScene):
     """The scene class for handling the UI when the game is over."""
 
-    def __init__(self, window, clock, fps):
+    def __init__(self, window, clock, fps, text="GAME OVER!"):
         super().__init__(window, clock, fps=fps)
         self.action = ""
 
@@ -21,8 +21,7 @@ class GameOver(GameScene):
         self.regular_font = pygame.font.Font(
             asset_path("assets/fonts/Forum-Regular.ttf"), 32)
 
-        self.title_text = self.title_font.render(
-            "GAME OVER!", True, (255, 255, 255))
+        self.title_text = self.title_font.render(text, True, (255, 255, 255))
         self.retry_button = self.regular_font.render(
             "RETRY", True, (255, 255, 255))
         self.menu_button = self.regular_font.render(

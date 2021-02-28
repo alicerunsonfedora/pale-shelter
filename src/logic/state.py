@@ -13,6 +13,7 @@ class GameState(Enum):
     MENU = "menu"
     IN_GAME = "in_game"
     GAME_OVER = "game_over"
+    WIN = "win"
     EXIT = "exit"
 
 

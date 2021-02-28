@@ -51,13 +51,27 @@ def main():
             while managed_loop:
                 managed_loop = scene.lifecycle()
             state_mgr.player_meter = scene.player.love_meter
-            if scene.game_over:
+            if state_mgr.player_meter == 0.0:
+                state_mgr.state = GameState.WIN
+            elif scene.game_over:
                 state_mgr.state = GameState.GAME_OVER
 
         # If the current state is game over, display the game over screen until the player presses a button.
         elif state_mgr.state == GameState.GAME_OVER:
             state_mgr.player_meter = 100.0
             scene: GameScene = GameOver(WINDOW, CLOCK, FPS)
+            managed_loop = True
+            while managed_loop:
+                managed_loop = scene.lifecycle()
+            if scene.action == "retry":
+                state_mgr.state = GameState.IN_GAME
+            else:
+                state_mgr.state = GameState.MENU
+
+        # If the player has won, show the winning screen.
+        elif state_mgr.state == GameState.WIN:
+            state_mgr.player_meter = 100.0
+            scene: GameScene = GameOver(WINDOW, CLOCK, FPS, text="YOU WIN?")
             managed_loop = True
             while managed_loop:
                 managed_loop = scene.lifecycle()
