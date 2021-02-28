@@ -54,13 +54,13 @@ class Player():
     def calculate_position(self, pressed: Dict[int, bool]) -> Tuple[int, int]:
         """Returns the new position based on what keys are pressed."""
         x, y = self.position
-        if pressed[pygame.K_a]:
+        if pressed[pygame.K_a] or pressed[pygame.K_LEFT]:
             x -= self.move_rate
-        if pressed[pygame.K_d]:
+        if pressed[pygame.K_d] or pressed[pygame.K_RIGHT]:
             x += self.move_rate
-        if pressed[pygame.K_w]:
+        if pressed[pygame.K_w] or pressed[pygame.K_UP]:
             y -= self.move_rate
-        if pressed[pygame.K_s]:
+        if pressed[pygame.K_s] or pressed[pygame.K_DOWN]:
             y += self.move_rate
         return x, y
 
