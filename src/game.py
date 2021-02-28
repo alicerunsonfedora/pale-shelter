@@ -22,6 +22,15 @@ def max_levels():
 
 
 def pseudo_random_number(maximum_value, previous=1):
+    """Returns a random number that isn't the previous value.
+
+    Arguments:
+        maximum_value (int): The highest number the random number can be.
+        previous (int): The previous number to skip in the random picking. Defaults to 1.
+
+    Returns:
+        A random integer that is not 
+    """
     val = randint(1, maximum_value)
     if val != previous:
         return val
