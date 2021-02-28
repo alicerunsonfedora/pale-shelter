@@ -1,0 +1,43 @@
+LIFELIGHT LEVEL
+TILESET #STRUCT01
+DECOR #DECOR01
+SIZE  11  10
+EXIT  7  8
+
+BEGIN LAYOUT
+           
+   VBCBT   
+ABCYGHGYCBD
+EGHZKLLZGHF
+EIJJKLLLLLF
+EKLLLLLLLLF
+EKLLLLLLLLF
+MNNNNNRLSNO
+      ELF  
+      ELF  
+           
+END LAYOUT
+
+BEGIN DECOR LAYOUT
+           
+           
+           
+ E       E 
+ F  AGB  F 
+    CHD    
+           
+           
+           
+           
+           
+END DECOR LAYOUT
+
+BEGIN ENTITIES
+PLAYER  1  6
+SAMUEL  5  3
+END ENTITIES
+
+BEGIN POWERUPS
+2  3
+8  3
+END POWERUPS

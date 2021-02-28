@@ -52,6 +52,13 @@ class GameScene():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit(0)
+
+        pressed = pygame.key.get_pressed()
+        if pressed[pygame.K_m]:
+            if pygame.mixer.music.get_busy():
+                pygame.mixer.music.stop()
+            else:
+                pygame.mixer.music.play(-1)
         return True
 
     def update_canvas(self):

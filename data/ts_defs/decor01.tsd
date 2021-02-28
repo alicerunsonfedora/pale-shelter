@@ -10,12 +10,31 @@ TILESET DECOR01
 # tile in the tileset, going from left to right. The second number corresponds to the Y position of
 # the tile, going top-down.
 BEGIN DEFINITIONS
+# TABLE
 A  0  0
 B  1  0
 C  0  1
 D  1  1
+
+# PLANT
 E  18  11
 F  18  12
+
+# TABLE EXTENSIONS
 G  2  0
 H  2  1
+
+# FRIDGE
+I  16  11
+J  16  12
+
+# GARBAGE CAN
+K  17  16
+L  17  17
+
+# BEANBAG
+M  10  5
+N  11  5
+O  10  6
+P  11  6
 END DEFINITIONS

@@ -4,12 +4,28 @@
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 #
 from random import randint
+from os import listdir
 import pygame
 
 from src.logic.state import GameState, GameStateManager
 from src.logic.scene import GameScene
 from src.logic.scenes import GameDriver, MainMenu, GameOver
 from src.assets import asset_path
+
+
+def max_levels():
+    """Returns the maximum number of levels."""
+    levels = sorted([level.replace(".lvl", "") for level in listdir(
+        asset_path("data")) if level.startswith("random")])
+    last_level = levels[-1:][0].replace("random", "")
+    return int(last_level)
+
+
+def pseudo_random_number(maximum_value, previous=1):
+    val = randint(1, maximum_value)
+    if val != previous:
+        return val
+    return pseudo_random_number(maximum_value, previous)
 
 
 def main():
@@ -30,6 +46,9 @@ def main():
     CLOCK = pygame.time.Clock()
     FPS = 60
 
+    MAX_LEVEL = max_levels()
+    PREVIOUS_LEVEL = 1
+
     while state_mgr.state != GameState.EXIT:
         # If the current state is the main menu, display it until the player clicks a button.
         if state_mgr.state == GameState.MENU:
@@ -44,7 +63,8 @@ def main():
 
         # If the current state is in-game, load a level and keep running until the player loses.
         elif state_mgr.state == GameState.IN_GAME:
-            random_level = f"random0{randint(1, 2)}"
+            PREVIOUS_LEVEL = pseudo_random_number(MAX_LEVEL, PREVIOUS_LEVEL)
+            random_level = f"random{PREVIOUS_LEVEL:02d}"
             scene: GameScene = GameDriver(WINDOW, CLOCK, random_level, FPS)
             scene.player.love_meter = state_mgr.player_meter
             managed_loop = True
