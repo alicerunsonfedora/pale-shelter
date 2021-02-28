@@ -3,6 +3,9 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 #
+"""The color module provides classes and utilities necessary to generate color palette objects from a GIMP Palette file
+    (GPL).
+"""
 
 from typing import Dict, Tuple
 

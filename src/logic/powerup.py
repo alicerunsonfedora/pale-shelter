@@ -10,7 +10,16 @@ from src.logic.player import Player
 
 
 class Powerup():
-    def __init__(self, position: Tuple[int, int], texture_tile: Tuple[int, int], on_activate: Callable):
+    """A class representing an in-game powerup."""
+
+    def __init__(self, position: Tuple[int, int], texture_tile: Tuple[int, int], on_activate: Callable) -> None:
+        """Create a powerup in the game.
+
+        Arguments:
+            position (tuple): The position of the powerup on the screen or surface.
+            texture_tile (tuple): The tileset position in the powerups tilesheet to render.
+            on_activate (callable): The method to run when the powerup is collected.
+        """
         self.canvas_position = left, top = position
         self.texture_position = texture_tile
         self.callback = on_activate
@@ -19,6 +28,7 @@ class Powerup():
         self.kind = "empty"
 
     def activate_event(self, player: Player):
+        """Activate the powerup if the player has collided with it and the powerup hasn't been used already."""
         if not self.boundaries.collidepoint(player.position) or self.activated:
             return
         self.callback()

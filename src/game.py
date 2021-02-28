@@ -18,7 +18,7 @@ def main():
     pygame.init()
     state_mgr = GameStateManager()
     state_mgr.state = GameState.MENU
-    player_love_meter = 100.0
+    state_mgr.player_meter = 100.0
 
     pygame.mixer.music.load(asset_path("assets/audio/heartache.mp3"))
     pygame.mixer.music.play(-1)
@@ -30,6 +30,7 @@ def main():
     FPS = 60
 
     while state_mgr.state != GameState.EXIT:
+        # If the current state is the main menu, display it until the player clicks a button.
         if state_mgr.state == GameState.MENU:
             scene: GameScene = MainMenu(WINDOW, CLOCK, FPS)
             managed_loop = True
@@ -39,16 +40,20 @@ def main():
                 state_mgr.state = GameState.IN_GAME
             else:
                 state_mgr.state = GameState.EXIT
+
+        # If the current state is in-game, load a level and keep running until the player loses.
         elif state_mgr.state == GameState.IN_GAME:
             random_level = f"random0{randint(1, 2)}"
             scene: GameScene = GameDriver(WINDOW, CLOCK, random_level, FPS)
-            scene.player.love_meter = player_love_meter
+            scene.player.love_meter = state_mgr.player_meter
             managed_loop = True
             while managed_loop:
                 managed_loop = scene.lifecycle()
-            player_love_meter = scene.player.love_meter
+            state_mgr.player_meter = scene.player.love_meter
             if scene.game_over:
                 state_mgr.state = GameState.GAME_OVER
+
+        # If the current state is game over, display the game over screen until the player presses a button.
         elif state_mgr.state == GameState.GAME_OVER:
             scene: GameScene = GameOver(WINDOW, CLOCK, FPS)
             managed_loop = True
@@ -56,7 +61,7 @@ def main():
                 managed_loop = scene.lifecycle()
             if scene.action == "retry":
                 state_mgr.state = GameState.IN_GAME
-                player_love_meter = 100.0
+                state_mgr.player_meter = 100.0
             else:
                 state_mgr.state = GameState.MENU
 

@@ -14,10 +14,18 @@ class Level():
     Class Attributes:
         src (str): The path to the file that generated this level.
         tileset_name (str): The tileset being used in this level.
+        decor_tileset_name (str): The name of the decor tilset used in this level.
         dimensions (tuple): A tuple containing the size of the level.
         tile_definitions (dict): A dictionary with characters as keys and a position in the tileset as their values.
             This dictionary defines what tile is used in place of an ASCII character in the level file.
         tiles (list): A two-dimensional array containing the tileset positions to be drawn to the screen.
+        entitites (list): A list containing a tuple of eneity names and their positions in the level.
+        decor_definitions (dict): A dictionary with characters as keys and a position in the tileset as their values.
+            This dictionary defines what tile is used in place of an ASCII character in the level file.
+        decor (list): A two-dimensional array containing the decor tileset positions to be drawn to the screen.
+        collidable_tiles (list): A list containing the tileset coordinates that represent collidable tiles.
+        powerups (list): A list containing the coordinates where to place powerups in the level.
+        exit (tuple): The coordinate for where the exit trigger is placed in the level.
     """
 
     def __init__(self, filepath):

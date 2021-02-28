@@ -10,6 +10,8 @@ from src.assets import asset_path
 
 
 class MainMenu(scene.GameScene):
+    """The scene class responsible for handling main menu functions to start and quit the game."""
+
     def __init__(self, window, clock, fps):
         super().__init__(window, clock, fps=fps)
         self.palette.assign_color_name("TITLE_COLOR", "c1cada")

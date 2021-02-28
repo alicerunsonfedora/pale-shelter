@@ -17,7 +17,7 @@ from src.assets import Tilesheet, ColorPalette, asset_path
 
 
 class GameDriver(GameScene):
-    """The main application class for the game."""
+    """The scene class responsible for generating levels in the game."""
 
     def __init__(self, window, clock, map_name, fps: int = 60) -> None:
         """Set up the game's canvas, colors, tilesheets, and event listeners."""

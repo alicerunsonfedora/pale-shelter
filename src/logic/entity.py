@@ -18,6 +18,7 @@ class NonPlayerEntity():
         """Create an entity.
 
         Arguments:
+            name (str): The name of the entity.
             position (tuple): The entity's position on the map.
         """
         self.image_name = name.lower()
@@ -30,9 +31,11 @@ class NonPlayerEntity():
 
     @property
     def fulfilled(self):
+        """Returns whether the entity's relationship proposal is complete (either accepted or rejected)."""
         return self.current_love_level == self.max_love_level
 
     def get_texture(self):
+        """Returns the texture for the entity based on the name."""
         return self.tilesheet.get_tile(3, 0)
 
     def is_near(self, player: Player) -> bool:
@@ -50,5 +53,5 @@ class NonPlayerEntity():
             self.current_love_level = self.max_love_level
 
     def verify(self) -> bool:
-        """Returns whether the entity accepts/rejects the relationship."""
+        """Returns whether the entity accepts/rejects the relationship proposal."""
         return self.fulfilled and self.love_seed

@@ -44,6 +44,7 @@ class Player():
         }
 
     def get_texture(self):
+        """Returns the appropriate texture for the player in the game loop."""
         if not self.in_motion:
             return self.idle_tilesheet.get_tile(self.directions[self.facing], 0)
         else:

@@ -10,6 +10,8 @@ from src.assets import asset_path
 
 
 class GameOver(GameScene):
+    """The scene class for handling the UI when the game is over."""
+
     def __init__(self, window, clock, fps):
         super().__init__(window, clock, fps=fps)
         self.action = ""
