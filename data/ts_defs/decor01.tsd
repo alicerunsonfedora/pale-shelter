@@ -37,4 +37,15 @@ M  10  5
 N  11  5
 O  10  6
 P  11  6
+
+# DESK
+Q  6  7
+R  7  7
+S  6  8
+T  7  8
+U  6  9
+V  7  9
+W  6  5
+X  6  6
+
 END DEFINITIONS
