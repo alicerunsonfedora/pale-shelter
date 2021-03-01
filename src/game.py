@@ -45,7 +45,7 @@ def main():
     state_mgr.state = GameState.MENU
     state_mgr.player_meter = 100.0
 
-    pygame.mixer.music.load(asset_path("assets/audio/heartache.mp3"))
+    pygame.mixer.music.load(asset_path("assets/audio/heartache.ogg"))
     pygame.mixer.music.play(-1)
     pygame.mixer.music.set_volume(0.1)
 

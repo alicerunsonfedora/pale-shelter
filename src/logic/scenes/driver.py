@@ -26,9 +26,9 @@ class GameDriver(GameScene):
         self.palette.assign_color_name("METER_LOWER", "6fa341")
 
         self.sfx = {
-            "powerup_black_heart": pygame.mixer.Sound(asset_path("assets/audio/pup_blackheart.wav")),
-            "powerup_heart": pygame.mixer.Sound(asset_path("assets/audio/pup_heart.wav")),
-            "response": pygame.mixer.Sound(asset_path("assets/audio/response.wav"))
+            "powerup_black_heart": pygame.mixer.Sound(asset_path("assets/audio/pup_blackheart.ogg")),
+            "powerup_heart": pygame.mixer.Sound(asset_path("assets/audio/pup_heart.ogg")),
+            "response": pygame.mixer.Sound(asset_path("assets/audio/response.ogg"))
         }
 
         self.tilesets = {
