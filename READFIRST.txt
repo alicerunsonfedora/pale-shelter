@@ -1,0 +1,60 @@
+ _____  ___      ______        ___        ______  ___      ___  _______  
+(\"   \|"  \    /    " \      |"  |      /    " \|"  \    /"  |/"     "| 
+|.\\   \    |  // ____  \     ||  |     // ____  \\   \  //  /(: ______) 
+|: \.   \\  | /  /    ) :)    |:  |    /  /    ) :)\\  \/. ./  \/    |   
+|.  \    \. |(: (____/ //      \  |___(: (____/ //  \.    //   // ___)_  
+|    \    \ | \        /      ( \_|:  \\        /    \\   /   (:      "| 
+ \___|\____\)  \"_____/        \_______)\"_____/      \__/     \_______) 
+
+Thanks for downloading and trying out No Love! This document contains important
+information about the game.
+
+
+##############################
+#         CONTROLS           #
+##############################
+
+W/Up Arrow - Move Up
+A/Left Arrow - Move Left
+S/Down Arrow - Move Down
+D/Right Arrow - Move Right
+E - Interact/ask for date
+
+M - Play/Stop music
+
+
+##############################
+#         CHANGES            #
+##############################
+
+v1.0.0:
+- Initial release.
+
+
+##############################
+#        SOURCE CODE         #
+##############################
+
+This game is open-source software licensed under the Mozilla Public
+License v2.0. The license should come included with the game as LICENSE.txt;
+if you cannot locate it, you can grab a copy at https://mozilla.org/MPL/2.0/.
+
+The source code should be bundled with the game under the src folder. If you
+cannot find it, you can obtain a copy at 
+https://github.com/alicerunsonfedora/pale-shelter.
+
+
+##############################
+#          CREDITS           #
+##############################
+
+Special thanks to the following people and groups that helped make this game
+possible.
+
+- Jonas Tyroller, for hosting the Wowie! Jam 3.0
+- LimeZu, for creating the tileset and characters used in the game
+- Jim Hall, for creating the background music ("Heartache")
+- The SFXr developers, for creating the tool that made the sound effects
+- My Twitch audience, for feedback and moral support
+- couchlyntt, for motivating me to make a proper Linux build
+- Laila and Grace, for helping with project ideation

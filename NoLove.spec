@@ -5,7 +5,8 @@ data_files = [
     ("assets", "assets"),
     ("data", "data"),
     ("LICENSE", "."),
-    ("CREDITS.txt", ".")
+    ("READFIRST.txt", "."),
+    ("src", "src")
 ]
 
 PLIST = {
