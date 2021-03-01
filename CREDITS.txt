@@ -5,3 +5,4 @@ Special thanks to the following people and groups that helped make this game pos
 - Jim Hall, for creating the background music ("Heartache")
 - The SFXr developers, for creating the tool that made the sound effects
 - My Twitch audience, for feedback and moral support
+- couchlyntt, for motivating me to make a proper Linux build

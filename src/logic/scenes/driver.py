@@ -41,7 +41,7 @@ class GameDriver(GameScene):
             "ui": Tilesheet(asset_path("assets/ui/ui_master.png"), (48, 48), (12, 12))
         }
 
-        self.level = Level(asset_path(f"data/{map_name}.lvl"))
+        self.level = Level(asset_path(f"data/levels/{map_name}.lvl"))
         self.player = Player(self._init_entity_position("PLAYER"), 4)
 
         exit_x, exit_y = self.get_canvas_position(self.level.exit)
@@ -111,7 +111,7 @@ class GameDriver(GameScene):
 
         self.player.update_love()
         if self.player.love_meter <= 0:
-            print("Player is out of love!")
+            return False
 
         pressed: Dict[int, bool] = pygame.key.get_pressed()
         self.player.update_position(pressed, self.delta, self.collidables)

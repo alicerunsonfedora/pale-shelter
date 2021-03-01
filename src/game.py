@@ -16,7 +16,7 @@ from src.assets import asset_path
 def max_levels():
     """Returns the maximum number of levels."""
     levels = sorted([level.replace(".lvl", "") for level in listdir(
-        asset_path("data")) if level.startswith("random")])
+        asset_path("data/levels"))])
     last_level = levels[-1:][0].replace("random", "")
     return int(last_level)
 
