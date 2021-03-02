@@ -4,17 +4,9 @@ You've tried to get into a relationship many, many times; each time is an additi
 
 No Love is a game written in Python about relationships for the Wowie! Jam 3.0, where to give up on relationships is to win, and to succeed in getting one is a failure. Can you drain yourself and give yourself pale shelter, or will you fail?
 
-## Planning
+## Quickstart: Get from Itch.io
 
-- Fail to start a relationship (stay single for as long as you can)
-    - Game ends when you "die" (no love left)
-        - Win if you run out of love
-        - Lose if you end up in a relationship
-- Gain points by staying alive long enough at the cost of your love being drained
-- _Drain the love meter_
-- Power-ups:
-    - "Heart" power-up adds love to the love meter
-    - "Money" power-up drains meter faster
+You can download the official builds of the game on the Itch.io page at https://marquiskurt.itch.io/no-love, as well as GitHub Releases.
 
 ## Building from source
 
