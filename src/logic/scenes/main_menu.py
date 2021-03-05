@@ -18,18 +18,18 @@ class MainMenu(scene.GameScene):
         self.action = ""
         self.logo = pygame.image.load(asset_path("assets/logo.png"))
         self.title_font = pygame.font.Font(
-            asset_path("assets/fonts/Forum-Regular.ttf"), 72)
+            asset_path("assets/fonts/XeDogmaRegular.ttf"), 128)
         self.regular_font = pygame.font.Font(
-            asset_path("assets/fonts/Forum-Regular.ttf"), 32)
+            asset_path("assets/fonts/ConnectionII.otf"), 32)
 
         self._htp_size = 192, 256
 
         self.title_text = self.title_font.render(
             "NO LOVE", True, self.palette.get_color("TITLE_COLOR"))
         self.start_button = self.regular_font.render(
-            "START GAME", True, (255, 255, 255))
+            "Start Game", True, (255, 255, 255))
         self.quit_button = self.regular_font.render(
-            "QUIT", True, (255, 255, 255))
+            "Quit", True, (255, 255, 255))
         self.start_rect = self.start_button.get_rect()
         self.quit_rect = self.quit_button.get_rect()
 

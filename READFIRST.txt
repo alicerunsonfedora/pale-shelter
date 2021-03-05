@@ -27,6 +27,10 @@ M - Play/Stop music
 #         CHANGES            #
 ##############################
 
+v1.1.0:
+- Replaced Forum font with Connection II, XeDogma.
+- Reposition buttons in game over screen to stop accidental clicks.
+
 v1.0.0:
 - Initial release.
 
@@ -57,4 +61,5 @@ possible.
 - The SFXr developers, for creating the tool that made the sound effects
 - My Twitch audience, for feedback and moral support
 - couchlyntt, for motivating me to make a proper Linux build
+- xenophilius, for creating the Xe Dogma font (https://www.fontspace.com/xe-dogma-font-f11487)
 - Laila and Grace, for helping with project ideation

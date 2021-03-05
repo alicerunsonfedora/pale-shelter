@@ -17,15 +17,15 @@ class GameOver(GameScene):
         self.action = ""
 
         self.title_font = pygame.font.Font(
-            asset_path("assets/fonts/Forum-Regular.ttf"), 72)
+            asset_path("assets/fonts/XeDogmaRegular.ttf"), 128)
         self.regular_font = pygame.font.Font(
-            asset_path("assets/fonts/Forum-Regular.ttf"), 32)
+            asset_path("assets/fonts/ConnectionII.otf"), 32)
 
         self.title_text = self.title_font.render(text, True, (255, 255, 255))
         self.retry_button = self.regular_font.render(
-            "RETRY", True, (255, 255, 255))
+            "Retry", True, (255, 255, 255))
         self.menu_button = self.regular_font.render(
-            "MAIN MENU", True, (255, 255, 255))
+            "Main Menu", True, (255, 255, 255))
         self.retry_rect = self.retry_button.get_rect()
         self.menu_rect = self.menu_button.get_rect()
 
@@ -53,11 +53,11 @@ class GameOver(GameScene):
 
         self.retry_rect.x = retry_x_pos = (window_width / 2) - \
             (self.retry_button.get_rect().width / 2)
-        self.retry_rect.y = retry_y_pos = (window_height / 2) + 100
+        self.retry_rect.y = retry_y_pos = (window_height / 2) + 76
         self.canvas.blit(self.retry_button, (retry_x_pos, retry_y_pos))
 
         self.menu_rect.x = menu_x_pos = (window_width / 2) - \
             (self.menu_button.get_rect().width / 2)
         self.menu_rect.y = menu_y_pos = (
-            window_height / 2) + 116 + self.retry_rect.height
+            window_height / 2) + 132 + self.retry_rect.height
         self.canvas.blit(self.menu_button, (menu_x_pos, menu_y_pos))
