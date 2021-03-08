@@ -6,6 +6,7 @@ name = "pypi"
 [scripts]
 game = "python NoLove.py"
 build = "pyinstaller --windowed NoLove.spec"
+build-win = "pyinstaller --windowed --onefile NoLove.spec"
 
 [packages]
 pygame = "*"
