@@ -11,10 +11,13 @@ data_files = [
 
 PLIST = {
     'NSPrincipalClass': 'NSApplication',
+    'CFBundleExecutable': 'NoLove',
     'CFBundleShortVersionString': '1.0.1',
     'CFBundleVersion': '1.0.3',
     'LSMinimumSystemVersion': '10.15',
-    'NSHumanReadableCopyright': 'Copyright © 2021 Marquis Kurt. All rights reserved.'
+    'NSHumanReadableCopyright': 'Copyright © 2021 Marquis Kurt. All rights reserved.',
+    'ITSAppUsesNonExemptEncryption': False,
+    'LSApplicationCategoryType': "public.app-category.arcade-games",
 }
 
 a = Analysis(['NoLove.py'],

@@ -20,3 +20,7 @@ Clone the repository and then run `pipenv install` to install the dependencies f
 ## Licensing
 
 The source code for this game is licensed under the Mozilla Public License v2.0. Assets in this game are licensed under their respective licenses and can be reviewed accordingly.
+
+## Privacy Policy
+
+No data is collected, period. It's that simple.
