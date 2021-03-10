@@ -1,5 +1,6 @@
 # -*- mode: python ; coding: utf-8 -*-
 block_cipher = None
+from sys import platform
 
 data_files = [
     ("assets", "assets"),
@@ -34,7 +35,9 @@ a = Analysis(['NoLove.py'],
              noarchive=False)
 pyz = PYZ(a.pure, a.zipped_data,
              cipher=block_cipher)
-exe = EXE(pyz,
+             
+if platform != "win32":
+    exe = EXE(pyz,
           a.scripts,
           [],
           exclude_binaries=True,
@@ -44,18 +47,31 @@ exe = EXE(pyz,
           strip=False,
           upx=True,
           icon='icon.ico',
-          console=False )
-coll = COLLECT(exe,
-                a.binaries,
-                a.zipfiles,
-                a.datas,
-                strip=False,
-                upx=True,
-                upx_exclude=[],
-                name='No Love')
-app = BUNDLE(coll,
-            name='No Love.app',
-            icon="icon.icns",
-            bundle_identifier="net.marquiskurt.pale-shelter",
-            info_plist=PLIST
-            )
+          console=False)
+    coll = COLLECT(exe,
+                    a.binaries,
+                    a.zipfiles,
+                    a.datas,
+                    strip=False,
+                    upx=True,
+                    upx_exclude=[],
+                    name='No Love')
+    app = BUNDLE(coll,
+                name='No Love.app',
+                icon="icon.icns",
+                bundle_identifier="net.marquiskurt.pale-shelter",
+                info_plist=PLIST
+                )
+else:
+    exe = EXE(pyz,
+            a.scripts,
+            a.binaries,
+            a.zipfiles,
+            a.datas,
+            name='NoLove',
+            debug=False,
+            bootloader_ignore_signals=False,
+            strip=False,
+            upx=True,
+            icon='icon.ico',
+            console=False)
